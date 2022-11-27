@@ -104,8 +104,8 @@ void main() {
 	n3 = create_tree(9, n6, n7);
 	root = create_tree(6, n2, n3); 
 
-	printf("\n   In-Order : "); inorder(root); //전위 순회 출력
-	printf("\n  pre-Order : "); preorder(root); //중위 순회 출력
+	printf("\n   In-Order : "); inorder(root); //중위 순회 출력
+	printf("\n  pre-Order : "); preorder(root); //전위 순회 출력
 	printf("\n post-Order : "); postorder(root); //후위 순회 출력
 	printf("\nlevel-Order : "); levelorder(root); //레벨 순회 출력
 	printf("\n");
