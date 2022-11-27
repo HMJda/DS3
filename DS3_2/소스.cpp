@@ -24,38 +24,39 @@ HNode find_heap() { return heap[1]; }
 
 void insert_heap(HNode n) { //힙 삽입
 	int i;
-	if (is_full_heap() ) return;
-	i = ++(heap_size);
-	while (i!=1&&key(n)>key(Parent(i)))
+	if (is_full_heap() ) return; //포화상태 유무 판단
+	i = ++(heap_size);  //힙삽입후 heap_size+1 해줌
+	while (i!=1&&key(n)>key(Parent(i)))  //i가 루트 노드가 아니고 n의 key가 i의 부모보다 크면 루프
 	{
-		heap[i] = Parent(i);
-		i /= 2;
+		heap[i] = Parent(i); //i의 부모노드를 i위치로 내림
+		i /= 2; //한 레벨 위로 이동 
 	}
-	heap[i] = n;
+	heap[i] = n;//최종위치 데이터 복사
 }
 HNode delete_heap() {//힙 삭제 
 	HNode hroot, last;
-	int parent = 1, child = 2;
+	int parent = 1, child = 2; //초기화
 
-	if (is_empty_heap())
+	if (is_empty_heap()) //공백상태 유무 판단
 		error("힙 트리 공백 에러");
-	hroot = heap[1];
-	last = heap[heap_size--];
-	while (child <= heap_size) {
-		if (child < heap_size && key(Left(parent)) < key(Right(parent)))
+	hroot = heap[1]; 
+	last = heap[heap_size--]; //힙의 마지막 요소를 리스트에 복사
+	while (child <= heap_size) { //힙트리를 벗어나지 않는 동안
+		if (child < heap_size && key(Left(parent)) < key(Right(parent))) //현재노드중 더 큰 자식을 찾고 child를 증가
 			child++;
-		if (key(last) >= key(heap[child]))
+		if (key(last) >= key(heap[child]))  //마지막 노드가 더 큰 자식 보다 크면 이동 완료,루프 탈출
 			break;
-		heap[parent] = heap[child];
+		heap[parent] = heap[child]; //아니면 한단계 아래로 이동
 		parent = child;
 		child *= 2;
 	}
-	heap[parent] = last;
-	return hroot;
+	heap[parent] = last; //마지막 노드를 최종위치에 저장
+	return hroot; //반환
 }
 
-void print_heap() {
-	int i, level;
+void print_heap() { //힙 출력 부분 
+	int i,j, level;
+	
 	for (i=1,level=1;i<=heap_size ; i++)
 	{
 		if (i == level) {
