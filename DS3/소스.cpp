@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX_QUEUE_SIZE  100
-typedef char TE1ement; 
+
+typedef int TE1ement; 
 typedef struct BinTrNode {
 	TE1ement data;
 	struct BinTrNode* left;
@@ -12,7 +13,7 @@ TNode* root;
 void init_tree() { root = NULL; }//루트 노드 초기화
 int is_empty_tree() { return root == NULL; }
 TNode* get_root() { return root; } 
-typedef int E1ement;
+typedef TNode* E1ement;
 E1ement data[MAX_QUEUE_SIZE];
 int front;
 int rear;
@@ -54,7 +55,7 @@ TNode* create_tree(TE1ement val, TNode* l, TNode* r) {
 
 void preorder(TNode* n) { //전위 순회
 	if (n != NULL) {
-		printf("[%c] ", n->data);
+		printf("[%d] ", n->data);
 		preorder(n->left); //왼쪽 노드 호출
 		preorder(n->right); //오른쪽 노드 호출
 	}
@@ -62,7 +63,7 @@ void preorder(TNode* n) { //전위 순회
 void  inorder(TNode* n) { //중위 순회
 	if (n != NULL) {
 		inorder(n->left); //왼쪽 노드 호출
-		printf("[%c] ", n->data);
+		printf("[%d] ", n->data);
 		inorder(n->right); //오른쪽 노드 호출
 	}
 }
@@ -70,32 +71,42 @@ void  postorder(TNode* n) { //후위 순회
 	if (n != NULL) {
 		postorder(n->left); //왼쪽 노드 호출
 		postorder(n->right); //오른쪽 노드 호출
-		printf("[%c] ", n->data);	
+		printf("[%d] ", n->data);	
 	}
 }
 void levelorder(TNode* root) {
 	TNode* n;
-	if (root != NULL) return;
+	if (root == NULL) return;
 	init_queue();
 	enqueue( root );
-	while (!is_empty){}
-	{
-
+	while (!is_empty()){
+		n = dequeue();
+		if (n != NULL) {
+			printf("[%d] ", n->data);
+			enqueue(n->left);
+			enqueue(n->right);
+		}
 	}
 }
 
 void main() {
 	TNode* n2,*n3, * n4, * n5, * n6, * n7, * n8, * n9, * n10, * n11;
 	init_tree();
-	n8 = create_tree('1',NULL,NULL);
-	n9 = create_tree('3', NULL, NULL);
-	n10 = create_tree('8', NULL, NULL);
-	n11 = create_tree('11', NULL, NULL);
-	n4 = create_tree('2', n8, n9);
-	n5 = create_tree('5', NULL, NULL);
-	n6 = create_tree('7', NULL, NULL);
-	n7 = create_tree('10', n10, n11);
-	n2 = create_tree('4', n4, n5);
-	n3 = create_tree('9', n6, n7);
-	root = create_tree('6', n2, n3);
+	n8 = create_tree(1,NULL,NULL); //이진트리 생성 파트
+	n9 = create_tree(3, NULL, NULL);
+	n10 = create_tree(8, NULL, NULL);
+	n11 = create_tree(11, NULL, NULL);
+	n4 = create_tree(2, n8, n9);
+	n5 = create_tree(5, NULL, NULL);
+	n6 = create_tree(7, NULL, NULL);
+	n7 = create_tree(10, n10, n11);
+	n2 = create_tree(4, n4, n5);
+	n3 = create_tree(9, n6, n7);
+	root = create_tree(6, n2, n3); 
+
+	printf("\n   In-Order : "); inorder(root); //전위 순회 출력
+	printf("\n  pre-Order : "); preorder(root); //중위 순회 출력
+	printf("\n post-Order : "); postorder(root); //후위 순회 출력
+	printf("\nlevel-Order : "); levelorder(root); //레벨 순회 출력
+	printf("\n");
 }
